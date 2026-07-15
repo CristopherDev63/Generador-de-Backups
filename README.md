@@ -9,7 +9,7 @@ Un generador de backups de seguridad en un comprimible en una ruta en específic
 ## Instalación
 ### Clonar Repositorio 
 ``` bash 
-git clone 
+git clone https://github.com/CristopherDev63/Generador-de-Backups.git
 ```
 
 ### Creación de entorno virtual y activación
