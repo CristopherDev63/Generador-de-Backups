@@ -1,3 +1,6 @@
-2026-07-15 13:36:23,743 - ERROR - No encontro nada del directorio de origen para hacer la copia de seguridad
-2026-07-15 13:37:15,780 - INFO - Borrado de backups antiguos en documentos
-2026-07-15 13:37:17,747 - INFO - Se ha creado el comprimible con exito
+2026-07-15 16:33:39,300 - ERROR - No se encontro la carpeta de origen
+2026-07-15 16:33:39,302 - ERROR - No encontro nada del directorio de origen para hacer la copia de seguridad
+2026-07-15 16:33:39,303 - INFO - Borrado de backups antiguos en documentos
+2026-07-15 16:33:39,305 - INFO - Se ha creado el comprimible con exito
+2026-07-15 16:36:46,822 - INFO - Borrado de backups antiguos en documentos
+2026-07-15 16:36:46,824 - INFO - Se ha creado el comprimible con exito

@@ -1,0 +1,5 @@
+---
+tags: [plantilla]
+---
+# Título
+Cuerpo.
