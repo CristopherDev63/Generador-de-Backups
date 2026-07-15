@@ -1,10 +1,14 @@
+from pydantic import BaseModel, ValidationError
 from pathlib import Path 
 import logging
 import shutil
 import yaml
+import sys
 import os
 
+
 RUTA_CONFIGURACION = Path("./config.yaml")
+
 
 logging.basicConfig(
         level=logging.INFO,
@@ -14,29 +18,33 @@ logging.basicConfig(
             ]
         )
 
+
+class Contrato_datos_configuracion(BaseModel):
+    origen: Path
+    destino: Path
+    nombre_zip: str 
+    compresion: str = "zip"
+
+
 with open(RUTA_CONFIGURACION, "r") as f:
     data = yaml.safe_load(f)
 
 
-ruta_icloud = Path.home() / "Library/Mobile Documents/iCloud~md~obsidian/Documents/Wiki Cris"
-ruta_destino = Path.home() / "Documents" / "Backup Obsidian"
-ruta_zip = ruta_destino / "Wiki Cris.zip"
-ruta_zip_sinextension = ruta_zip.with_suffix("")
+def generar_backup(r_origen, r_zip, t_compresion):
+    ruta_zip_sinextension = r_zip.with_suffix("")
 
+    if r_origen.exists():
 
-def decargar_de_icloud():
-    if ruta_icloud.exists():
-
-        if not len(os.listdir(ruta_icloud)): 
+        if not len(os.listdir(r_origen)): 
             logging.error("No encontro nada del directorio de origen para hacer la copia de seguridad")
             return
 
-        ruta_zip.unlink(missing_ok=True)   # Se elimina el backup viejo
+        r_zip.unlink(missing_ok=True)   # Se elimina el backup viejo
         logging.info("Borrado de backups antiguos en documentos")
 
 
         try: 
-            shutil.make_archive(base_name=ruta_zip_sinextension, format="zip", root_dir=ruta_icloud)
+            shutil.make_archive(base_name=ruta_zip_sinextension, format=t_compresion, root_dir=r_origen)
             logging.info("Se ha creado el comprimible con exito")
 
         except Exception as e:
@@ -47,4 +55,25 @@ def decargar_de_icloud():
 
 
 if __name__ == "__main__":
-    pass
+    try:
+        config = Contrato_datos_configuracion(**data["backup"])
+
+    except ValidationError as e:
+        logging.error(f"Hubo un error en la validacion de datos")
+        sys.exit(1)     # Se cierra el script para evitar conflictos
+    
+
+    if config.origen.is_absolute():
+        ruta_origen = config.origen
+    else:
+        ruta_origen = Path.home() / config.origen
+
+    if config.destino.is_absolute():
+        ruta_destino = config.destino
+    else:
+        ruta_destino = Path.home() / config.destino 
+    
+    tipo_compresion = config.compresion
+    ruta_zip = ruta_destino / config.nombre_zip
+
+    generar_backup(ruta_origen, ruta_zip, tipo_compresion)
