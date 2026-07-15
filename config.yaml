@@ -1,0 +1,7 @@
+backup:
+  origen: ""
+  destino: ""
+  nombre_zip: ""
+  compresion: "zip"
+
+

@@ -1,8 +1,10 @@
 from pathlib import Path 
 import logging
 import shutil
+import yaml
 import os
 
+RUTA_CONFIGURACION = Path("./config.yaml")
 
 logging.basicConfig(
         level=logging.INFO,
@@ -11,6 +13,9 @@ logging.basicConfig(
             logging.FileHandler("app.log")
             ]
         )
+
+with open(RUTA_CONFIGURACION, "r") as f:
+    data = yaml.safe_load(f)
 
 
 ruta_icloud = Path.home() / "Library/Mobile Documents/iCloud~md~obsidian/Documents/Wiki Cris"
@@ -42,4 +47,4 @@ def decargar_de_icloud():
 
 
 if __name__ == "__main__":
-    decargar_de_icloud()
+    pass
