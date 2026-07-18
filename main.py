@@ -7,14 +7,17 @@ import sys
 import os
 
 
-RUTA_CONFIGURACION = Path("./config.yaml")
+RUTA_BASE = Path.home()
+RUTA_PROYECTO = Path(__file__).resolve().parent
+RUTA_LOG = RUTA_PROYECTO / "app.log"
+RUTA_CONFIGURACION = RUTA_PROYECTO / "config.yaml"
 
 
 logging.basicConfig(
         level=logging.INFO,
         format="%(asctime)s - %(levelname)s - %(message)s",
         handlers=[
-            logging.FileHandler("app.log")
+            logging.FileHandler(RUTA_LOG)
             ]
         )
 
@@ -66,12 +69,12 @@ if __name__ == "__main__":
     if config.origen.is_absolute():
         ruta_origen = config.origen
     else:
-        ruta_origen = Path.home() / config.origen
+        ruta_origen = RUTA_BASE / config.origen
 
     if config.destino.is_absolute():
         ruta_destino = config.destino
     else:
-        ruta_destino = Path.home() / config.destino 
+        ruta_destino = RUTA_BASE / config.destino 
     
     tipo_compresion = config.compresion
     ruta_zip = ruta_destino / config.nombre_zip
